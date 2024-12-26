@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -11,8 +11,26 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        // console.log("Enter key pressed");
+        handleSearch();
+        // console.log("Search handled");
+      }
+    };
+
+    if (query) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [query, handleSearch]);
+
   return (
-    <div className="w-full max-w-lg  flex gap-4">
+    <div className="w-full max-w-lg flex gap-4">
       <Input
         type="text"
         placeholder="What do you wanna watch?..."

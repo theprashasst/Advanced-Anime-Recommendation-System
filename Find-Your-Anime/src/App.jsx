@@ -5,13 +5,15 @@ import { Client } from "@gradio/client";
 
 const App = () => {
   const [animeList, setAnimeList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchAnimeDetails = async (query) => {
     try {
+      setLoading(true);
       const client = await Client.connect("Prashasst/Find-My-Anime");
       const response = await client.predict("/recommend_anime", {
         query,
-        k: 9
+        k: 10
       });
       console.log(response.data[0]);
 
@@ -61,8 +63,10 @@ const App = () => {
       );
 
       setAnimeList(animeDetails);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching anime details:', error);
+      setLoading(false);
     }
   };
 
@@ -71,7 +75,7 @@ const App = () => {
       <h1 className="text-4xl font-bold text-primary mb-6">Find Your Anime </h1>
      
       <SearchBar onSearch={fetchAnimeDetails} />
-      <AnimeList animeList={animeList} />
+      <AnimeList loadingState={loading} animeList={animeList} />
     </div>
   );
 };

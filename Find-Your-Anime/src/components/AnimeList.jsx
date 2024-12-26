@@ -1,7 +1,13 @@
 import React from 'react';
 import { Card, CardHeader, CardFooter, CardContent } from './ui/card';
 
-const AnimeList = ({ animeList }) => {
+const AnimeList = ({ animeList  ,loadingState}) => {
+  if (loadingState) 
+    return (
+      <p className="text-center text-gray-500 mt-6">
+        Loading...
+      </p>
+    );
   if (animeList.length === 0) {
     return (
       <p className="text-center text-gray-500 mt-6">
@@ -11,7 +17,7 @@ const AnimeList = ({ animeList }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-6">
       {animeList.map((anime) => (
         <Card key={anime.id} className="bg-card border border-secondary text-black">
           <CardHeader className="relative">
